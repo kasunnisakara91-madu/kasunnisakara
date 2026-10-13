@@ -1,0 +1,6 @@
+{
+  "name": "CRIMINAL APP",
+  "description": "Modern real-time encrypted-style messaging, voice & video calling, status updates, and group chat app developed by Madusanka.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

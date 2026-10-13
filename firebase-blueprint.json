@@ -1,0 +1,332 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user profile, account settings, privacy preferences, and blocked users list.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase Auth UID." },
+        "username": { "type": "string", "description": "Unique handle (3-30 chars)." },
+        "displayName": { "type": "string", "description": "Display name shown in chats." },
+        "bio": { "type": "string", "description": "User bio / status line." },
+        "phoneNumber": { "type": "string", "description": "Phone number or contact identifier." },
+        "avatarColor": { "type": "string", "description": "Hex color for avatar badge." },
+        "avatarBase64": { "type": "string", "description": "Optional base64 encoded profile image." },
+        "isOnline": { "type": "boolean", "description": "Real-time online indicator." },
+        "lastSeenText": { "type": "string", "description": "Formatted last seen status." },
+        "privacyPhoto": { "type": "string", "enum": ["EVERYONE", "CONTACTS", "NOBODY"] },
+        "privacyLastSeen": { "type": "string", "enum": ["EVERYONE", "CONTACTS", "NOBODY"] },
+        "privacyStatus": { "type": "string", "enum": ["EVERYONE", "CONTACTS", "NOBODY"] },
+        "notificationsSound": { "type": "boolean" },
+        "notificationsVibrate": { "type": "boolean" },
+        "themeMode": { "type": "string", "enum": ["DARK", "LIGHT", "SYSTEM"] },
+        "blockedUserIds": { "type": "array", "description": "Bounded list of blocked user UIDs." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" }
+      },
+      "required": [
+        "userId",
+        "username",
+        "displayName",
+        "bio",
+        "phoneNumber",
+        "avatarColor",
+        "isOnline",
+        "lastSeenText",
+        "privacyPhoto",
+        "privacyLastSeen",
+        "privacyStatus",
+        "notificationsSound",
+        "notificationsVibrate",
+        "themeMode",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "DirectoryProfile": {
+      "title": "DirectoryProfile",
+      "description": "Publicly searchable non-PII user directory entry for finding users by username or phone tag.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "bio": { "type": "string" },
+        "phoneTag": { "type": "string" },
+        "avatarColor": { "type": "string" },
+        "avatarBase64": { "type": "string" },
+        "isOnline": { "type": "boolean" },
+        "lastSeenText": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["PUBLIC"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "username",
+        "displayName",
+        "bio",
+        "phoneTag",
+        "avatarColor",
+        "isOnline",
+        "lastSeenText",
+        "visibility",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Contact": {
+      "title": "Contact",
+      "description": "Saved contact under a user's private contacts subcollection.",
+      "type": "object",
+      "properties": {
+        "contactUid": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "phoneTag": { "type": "string" },
+        "bio": { "type": "string" },
+        "avatarColor": { "type": "string" },
+        "isBlocked": { "type": "boolean" },
+        "isFavorite": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "contactUid",
+        "username",
+        "displayName",
+        "phoneTag",
+        "bio",
+        "avatarColor",
+        "isBlocked",
+        "isFavorite",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "One-to-one private chat or group chat with group administrators.",
+      "type": "object",
+      "properties": {
+        "creatorId": { "type": "string" },
+        "isGroup": { "type": "boolean" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "avatarColor": { "type": "string" },
+        "groupIconBase64": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "adminIds": { "type": "array" },
+        "participantNames": { "type": "string" },
+        "lastMessageText": { "type": "string" },
+        "lastMessageSenderId": { "type": "string" },
+        "lastMessageSenderName": { "type": "string" },
+        "lastMessageType": { "type": "string", "enum": ["TEXT", "IMAGE", "VIDEO", "DOCUMENT", "VOICE", "SYSTEM"] },
+        "lastMessageStatus": { "type": "string", "enum": ["SENT", "DELIVERED", "READ"] },
+        "unreadCount": { "type": "integer" },
+        "typingUserId": { "type": "string" },
+        "typingUserName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "creatorId",
+        "isGroup",
+        "title",
+        "description",
+        "avatarColor",
+        "participantIds",
+        "adminIds",
+        "participantNames",
+        "lastMessageText",
+        "lastMessageSenderId",
+        "lastMessageSenderName",
+        "lastMessageType",
+        "lastMessageStatus",
+        "unreadCount",
+        "typingUserId",
+        "typingUserName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time message inside a conversation supporting text, image, video, document, voice, replies, edits, and read receipts.",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "text": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["TEXT", "IMAGE", "VIDEO", "DOCUMENT", "VOICE"] },
+        "deliveryStatus": { "type": "string", "enum": ["SENT", "DELIVERED", "READ"] },
+        "isEdited": { "type": "boolean" },
+        "isDeleted": { "type": "boolean" },
+        "isForwarded": { "type": "boolean" },
+        "mediaBase64": { "type": "string" },
+        "mediaName": { "type": "string" },
+        "mediaDurationSec": { "type": "integer" },
+        "replyToMessageId": { "type": "string" },
+        "replyToSenderName": { "type": "string" },
+        "replyToPreview": { "type": "string" },
+        "readByUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "conversationId",
+        "senderId",
+        "senderName",
+        "participantIds",
+        "text",
+        "messageType",
+        "deliveryStatus",
+        "isEdited",
+        "isDeleted",
+        "isForwarded",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "StatusUpdate": {
+      "title": "StatusUpdate",
+      "description": "24-hour expiring photo, video, or text status story with viewer tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "userDisplayName": { "type": "string" },
+        "userAvatarColor": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["TEXT", "IMAGE", "VIDEO"] },
+        "caption": { "type": "string" },
+        "backgroundColorHex": { "type": "string" },
+        "mediaBase64": { "type": "string" },
+        "visibilityScope": { "type": "string", "enum": ["PUBLIC", "CONTACTS", "PRIVATE"] },
+        "expiresAtMillis": { "type": "integer" },
+        "viewerUids": { "type": "array" },
+        "viewerNames": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "username",
+        "userDisplayName",
+        "userAvatarColor",
+        "mediaType",
+        "caption",
+        "backgroundColorHex",
+        "visibilityScope",
+        "expiresAtMillis",
+        "viewerUids",
+        "viewerNames",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CallSession": {
+      "title": "CallSession",
+      "description": "Real-time voice and video call signaling session and call history record.",
+      "type": "object",
+      "properties": {
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "callerAvatarColor": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverAvatarColor": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "callType": { "type": "string", "enum": ["VOICE", "VIDEO"] },
+        "status": { "type": "string", "enum": ["RINGING", "CONNECTED", "ENDED", "MISSED", "DECLINED"] },
+        "sdpOffer": { "type": "string" },
+        "sdpAnswer": { "type": "string" },
+        "iceCandidatesJson": { "type": "string" },
+        "durationSeconds": { "type": "integer" },
+        "isMuted": { "type": "boolean" },
+        "isCameraOn": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "callerId",
+        "callerName",
+        "callerAvatarColor",
+        "receiverId",
+        "receiverName",
+        "receiverAvatarColor",
+        "participantIds",
+        "callType",
+        "status",
+        "sdpOffer",
+        "sdpAnswer",
+        "iceCandidatesJson",
+        "durationSeconds",
+        "isMuted",
+        "isCameraOn",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AbuseReport": {
+      "title": "AbuseReport",
+      "description": "Report submitted against an abusive user or conversation.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "reportedUserId": { "type": "string" },
+        "reportedUsername": { "type": "string" },
+        "reason": { "type": "string" },
+        "details": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "REVIEWED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "reporterId",
+        "reportedUserId",
+        "reportedUsername",
+        "reason",
+        "details",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile and settings document."
+    },
+    "/directory/{userId}": {
+      "schema": { "$ref": "#/entities/DirectoryProfile" },
+      "description": "Public non-PII user directory entry for username/phone search."
+    },
+    "/users/{userId}/contacts/{contactId}": {
+      "schema": { "$ref": "#/entities/Contact" },
+      "description": "User's private contact list."
+    },
+    "/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "Private 1-to-1 and group chat rooms."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Messages inside a conversation."
+    },
+    "/statuses/{statusId}": {
+      "schema": { "$ref": "#/entities/StatusUpdate" },
+      "description": "24-hour status updates / stories."
+    },
+    "/calls/{callId}": {
+      "schema": { "$ref": "#/entities/CallSession" },
+      "description": "Voice and video call signaling and call logs."
+    },
+    "/reports/{reportId}": {
+      "schema": { "$ref": "#/entities/AbuseReport" },
+      "description": "Abuse reports."
+    }
+  }
+}
